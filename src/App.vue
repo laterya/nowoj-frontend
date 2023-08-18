@@ -1,30 +1,25 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <BasicLayout />
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup lang="ts">
+import BasicLayout from "@/layouts/BasicLayout.vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
 
-nav {
-  padding: 30px;
-}
+const router = useRouter();
+const store = useUserStore();
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+router.beforeEach((to, from, next) => {
+  // 管理员权限校验
+  if (to.meta?.access === "canAdmin") {
+    if (store.userInfo.role !== "admin") {
+      next("/noAuth");
+      return;
+    }
+  }
+  next();
+});
+</script>
