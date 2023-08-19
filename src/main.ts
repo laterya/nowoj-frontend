@@ -1,14 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { createPinia } from "pinia";
 import ArcoVue from "@arco-design/web-vue";
 import "@arco-design/web-vue/dist/arco.css";
+import "@/plugins/axios";
+import { setupStore } from "@/stores";
+// 引入全局权限校验
+import "@/access/index";
 
-const pinia = createPinia();
 const app = createApp(App);
 
 app.use(router);
-app.use(pinia);
+setupStore(app);
 app.use(ArcoVue);
 app.mount("#app");

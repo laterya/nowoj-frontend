@@ -2,7 +2,7 @@
 import { routes } from "@/router/routes";
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/modules/user";
 import checkAccess from "@/access/checkAccess";
 
 const router = useRouter();
@@ -20,7 +20,7 @@ const doMenuClick = (key: string) => {
 const store = useUserStore();
 
 const loginClicked = () => {
-  store.setLoginUser();
+  console.log("loginClicked");
 };
 
 // 控制菜单栏的显示
@@ -31,9 +31,21 @@ const visibleRoutes = computed(() => {
       return false;
     }
     // 根据权限过滤菜单
-    return checkAccess(store.userInfo, item?.meta?.access as string);
+    return checkAccess(store.userRole as string, item?.meta?.access as string);
   });
 });
+
+// 头像点击控制
+const handleSelect = (e: any) => {
+  console.log(e);
+  if (e === "0") router.push("/user/login");
+  else if (e === "1") router.push("/user/register");
+  else if (e === "2") router.push("/about");
+  else if (e === "3") {
+    store.logout();
+    router.push("/");
+  }
+};
 </script>
 
 <template>
@@ -60,7 +72,20 @@ const visibleRoutes = computed(() => {
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div @click="loginClicked">{{ store.userInfo.userName }}</div>
+      <a-dropdown @select="handleSelect">
+        <a-avatar>
+          <img alt="avatar" :src="store.userAvatar" />
+        </a-avatar>
+        <template #content v-if="store.userName === undefined">
+          <a-doption value="0">立即登陆</a-doption>
+          <a-doption value="1">开始注册</a-doption>
+        </template>
+        <template #content v-else>
+          <a-doption value="2">关于我的</a-doption>
+          <a-doption value="3">退出登陆</a-doption>
+        </template>
+      </a-dropdown>
+      <div @click="loginClicked">{{ store.userName }}</div>
     </a-col>
   </a-row>
 </template>
