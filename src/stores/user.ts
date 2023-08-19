@@ -6,13 +6,13 @@ interface UserState {
 
 interface UserInfo {
   userName: string;
-  role: string;
+  userRole: string;
 }
 
 export const useUserStore = defineStore({
   id: "app-user",
   state: (): UserState => ({
-    userInfo: { userName: "未登录", role: "未登录" },
+    userInfo: { userName: "未登录", userRole: "notLogin" },
   }),
   getters: {
     getLoginUser(): UserInfo {
@@ -22,7 +22,7 @@ export const useUserStore = defineStore({
   actions: {
     setLoginUser() {
       this.userInfo.userName = "laterya";
-      this.userInfo.role = "admin";
+      this.userInfo.userRole = "user";
     },
   },
 });
