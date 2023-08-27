@@ -22,7 +22,6 @@
 }
 
 #basicLayout .content {
-  background: yellow;
   margin-bottom: 16px;
   padding: 20px;
 }

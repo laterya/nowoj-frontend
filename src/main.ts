@@ -7,6 +7,8 @@ import "@/plugins/axios";
 import { setupStore } from "@/stores";
 // 引入全局权限校验
 import "@/access/index";
+// markdown 编辑器的样式
+import "bytemd/dist/index.css";
 
 const app = createApp(App);
 

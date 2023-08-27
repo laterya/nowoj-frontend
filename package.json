@@ -9,8 +9,13 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@bytemd/plugin-gfm": "^1.21.0",
+    "@bytemd/plugin-highlight": "^1.21.0",
+    "@bytemd/vue-next": "^1.21.0",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
+    "monaco-editor": "^0.41.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "openapi-typescript-codegen": "^0.25.0",
     "pinia": "^2.1.6",
     "vue": "^3.2.13",

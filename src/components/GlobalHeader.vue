@@ -36,7 +36,7 @@ const visibleRoutes = computed(() => {
 });
 
 // 头像点击控制
-const handleSelect = (e: any) => {
+const handleSelect = (e: string) => {
   console.log(e);
   if (e === "0") router.push("/user/login");
   else if (e === "1") router.push("/user/register");

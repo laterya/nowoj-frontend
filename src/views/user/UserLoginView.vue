@@ -1,6 +1,6 @@
 <template>
   <div id="userLoginView">
-    <h2 style="margin-bottom: 16px">用户注册</h2>
+    <h2 style="margin-bottom: 16px">用户登录</h2>
     <a-form
       style="max-width: 480px; margin: 0 auto"
       label-align="left"
@@ -17,19 +17,9 @@
           placeholder="请输入密码"
         />
       </a-form-item>
-      <a-form-item
-        field="checkPassword"
-        tooltip="再次输入密码以确定"
-        label="确认密码"
-      >
-        <a-input-password
-          v-model="form.checkPassword"
-          placeholder="请再次输入密码"
-        />
-      </a-form-item>
       <a-form-item>
         <a-button type="primary" html-type="submit" style="width: 120px">
-          注册
+          登录
         </a-button>
       </a-form-item>
     </a-form>
@@ -40,7 +30,8 @@
 import { reactive } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
-import { UserControllerService, UserRegisterRequest } from "../../generated";
+import { UserControllerService, UserLoginRequest } from "../../../generated";
+import { useUserStore } from "@/stores/modules/user";
 
 /**
  * 表单信息
@@ -48,26 +39,27 @@ import { UserControllerService, UserRegisterRequest } from "../../generated";
 const form = reactive({
   userAccount: "",
   userPassword: "",
-  checkPassword: "",
-} as UserRegisterRequest);
+} as UserLoginRequest);
 
 const router = useRouter();
+const store = useUserStore();
 
 /**
  * 提交表单
  * @param data
  */
 const handleSubmit = async () => {
-  const res = await UserControllerService.userRegisterUsingPost(form);
-  // 注册成功，跳转到登陆页面
+  const res = await UserControllerService.userLoginUsingPost(form);
+  // 登录成功，跳转到主页
   if (res.code === 0) {
+    // 将用户信息存储到 store 中
+    store.setLoginUser(res.data);
     router.push({
-      path: "/user/login",
+      path: "/",
       replace: true,
     });
-    message.success("注册成功");
   } else {
-    message.error("注册失败，" + res.message);
+    message.error("登陆失败，" + res.message);
   }
 };
 </script>
