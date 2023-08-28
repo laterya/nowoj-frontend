@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>管理员界面</h1>
+    <h1>用户管理界面</h1>
   </div>
 </template>
